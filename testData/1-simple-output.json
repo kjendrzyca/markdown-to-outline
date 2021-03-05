@@ -1,0 +1,52 @@
+[
+  {
+    "type": "heading",
+    "depth": 1,
+    "value": "Eat That Frog! by Tracy, Brian",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "Paragraph 1"
+      },
+      {
+        "type": "paragraph",
+        "value": "Paragraph 2"
+      },
+      {
+        "type": "heading",
+        "depth": 2,
+        "value": "Heading 2"
+      }
+    ]
+  },
+  {
+    "type": "heading",
+    "depth": 1,
+    "value": "Learning from Successful People",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "Paragraph 3"
+      },
+      {
+        "type": "paragraph",
+        "value": "Paragraph 4"
+      }
+    ]
+  },
+  {
+    "type": "heading",
+    "depth": 1,
+    "value": "Success Is Predictable",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "Paragraph 5"
+      },
+      {
+        "type": "paragraph",
+        "value": "Paragraph 6"
+      }
+    ]
+  }
+]

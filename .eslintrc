@@ -1,9 +1,10 @@
 {
   "extends": "airbnb-base",
   "rules": {
-    "semi": "off",
+    "semi": ["error", "never"],
     "no-console": "off",
-    "quotes": ["error", "single", { "allowTemplateLiterals": true }]
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "no-use-before-define": ["error", { "functions": false, "variables": false }]
   },
   "env": {
     "jest": true
