@@ -69,7 +69,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
     )
     const nextIndex = headingIndexes[indexIterator + 1]
 
-    console.log({ isInBetweenGroupIndex, index })
+    // console.log({ isInBetweenGroupIndex, index })
 
     let group
     if (isFirstGroupIndex) {
@@ -128,6 +128,7 @@ const findAllIndexes = (array, level) => array.reduce((prev, current, currentInd
 const indexPredicate = (element, level) => element.type === 'heading' && element.depth === level
 
 const sanitizeElement = (element) => {
+  // already parsed elements
   if (!element.children) {
     return [{
       ...elementFactory(element),
@@ -135,19 +136,20 @@ const sanitizeElement = (element) => {
     }]
   }
 
-  const firstChild = element.children[0]
-
   if (element.type === 'list') {
-    // console.log('LIST', element.children[0])
-    return element.children.map((child) => console.log('CHILD', child.children[0].children[0].value) || ({
+    return element.children.map((child) => ({
       ...elementFactory(child),
       value: child.children[0].children[0].value,
     }))
   }
 
+  const paragraph = element.children.map(
+    (child) => (child.value ? child.value : child.children[0].value),
+  ).join('')
+
   return [{
     ...elementFactory(element),
-    value: firstChild.value,
+    value: paragraph,
   }]
 }
 

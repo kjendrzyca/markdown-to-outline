@@ -1,0 +1,43 @@
+[
+  {
+    "type": "paragraph",
+    "value": "Paragraph 1\nNote: 000"
+  },
+  {
+    "type": "heading",
+    "depth": 2,
+    "value": "Eat That Frog! by Tracy, Brian",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "Rule1\nNote: !!!"
+      },
+      {
+        "type": "heading",
+        "depth": 3,
+        "value": "H3",
+        "children": [
+          {
+            "type": "paragraph",
+            "value": "Note: h3 note"
+          },
+          {
+            "type": "paragraph",
+            "value": "H3 Paragraph with note\nNote: ???"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "heading",
+    "depth": 1,
+    "value": "H1",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "Rule2\nNote: aaa"
+      }
+    ]
+  }
+]

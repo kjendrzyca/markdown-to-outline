@@ -470,7 +470,7 @@ exports[`should map a book snapshot 1`] = `
           },
           {
             \\"type\\": \\"paragraph\\",
-            \\"value\\": \\"Rule: Long- term thinking improves short- term decision making.\\\\n\\"
+            \\"value\\": \\"Rule: Long- term thinking improves short- term decision making.\\\\nNote: !!!\\"
           },
           {
             \\"type\\": \\"paragraph\\",

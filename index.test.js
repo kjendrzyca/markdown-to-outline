@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
 const fs = require('fs')
-const fromMarkdown = require('mdast-util-from-markdown')
 const mapToJson = require('./mapToJson')
 
 const readTestData = (filePrefix) => {
@@ -51,8 +50,6 @@ it(`should map nested markdown (h3 level)`, () => {
 
   const actual = toJson(mapToJson(input))
 
-  console.log(actual)
-
   expect(actual).toEqual(output)
 })
 
@@ -61,17 +58,23 @@ it(`should map all levels`, () => {
 
   const actual = toJson(mapToJson(input))
 
-  console.log(actual)
-
   expect(actual).toEqual(output)
 })
 
-it(`should properly map a list`, () => {
+it(`should map a list`, () => {
   const { input, output } = readTestData('5-list')
 
   const actual = toJson(mapToJson(input))
 
-  console.log(actual)
+  expect(actual).toEqual(output)
+})
+
+it(`should map a note`, () => {
+  // A header note becomes a new paragraph inside.
+  // A paragraph note is appended to the paragrap with new line character.
+  const { input, output } = readTestData('6-note')
+
+  const actual = toJson(mapToJson(input))
 
   expect(actual).toEqual(output)
 })
@@ -82,36 +85,4 @@ it(`should map a book snapshot`, () => {
   const actual = toJson(mapToJson(input))
 
   expect(actual).toMatchSnapshot()
-})
-
-it.skip(`should not miss any elements`, () => {
-  const input = fs.readFileSync(`./testData/eat-that-frog.md`)
-
-  const tree = fromMarkdown(input)
-
-  const allLines = []
-  tree.children.forEach((element) => {
-    if (!element.children) {
-      allLines.push(element.value)
-    } else if (element.type === 'list') {
-      // console.log('LIST', element.children[0])
-      const listElements = element.children.map((child) => child.children[0].children[0].value)
-
-      allLines.push(...listElements)
-    } else {
-      allLines.push(element.children[0].value)
-    }
-  })
-
-  // console.log(JSON.stringify(tree, null, 2))
-  // console.log('===')
-  console.log(allLines)
-  console.log(allLines.length)
-  // console.log(tree.children.length)
-
-  const actual = toJson(mapToJson(input))
-
-  console.log(actual)
-
-  // expect(actual).toMatchSnapshot()
 })
