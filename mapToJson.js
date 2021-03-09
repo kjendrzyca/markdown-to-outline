@@ -6,6 +6,7 @@ const fromMarkdown = require('mdast-util-from-markdown')
 module.exports = (markdownDocument) => {
   const tree = fromMarkdown(markdownDocument)
   const allElements = tree.children
+
   // console.log(allElements)
   // console.log(JSON.stringify(tree, null, 2))
 
@@ -24,14 +25,14 @@ module.exports = (markdownDocument) => {
   const levelOneIndexes = findAllIndexes(tree.children, 1)
   // console.log(JSON.stringify(allElements, null, 2))
 
-  const finalResult = mapStuff(levelOneIndexes, allElements)
+  const finalResult = mapStuff(levelOneIndexes, allElements, 1)
 
   // console.log(JSON.stringify(finalResult, null, 2))
 
   return finalResult
 }
 
-const mapStuff = (headingIndexes, elements) => {
+const mapStuff = (headingIndexes, elements, depth) => {
   const firstHeaderIndex = headingIndexes[0]
   // in case there is no first header and md starts with paragraphs
   const elementsBeforeFirstHeader = elements.reduce((result, current, currentIndex) => {
@@ -42,13 +43,14 @@ const mapStuff = (headingIndexes, elements) => {
     return result
   }, [])
 
-  const level2IndexesBeforeFirstHeader = findAllIndexes(elementsBeforeFirstHeader, 2)
+  const level2IndexesBeforeFirstHeader = findAllIndexes(elementsBeforeFirstHeader, depth + 1)
 
   let mappedLevel2BeforeFirstHeader = []
   if (level2IndexesBeforeFirstHeader.length) {
     mappedLevel2BeforeFirstHeader = mapStuff(
       level2IndexesBeforeFirstHeader,
       elementsBeforeFirstHeader,
+      depth + 1,
     )
   }
 
@@ -102,9 +104,9 @@ const mapStuff = (headingIndexes, elements) => {
     }
 
     // console.log({ group })
-    const allLevel2Indexes = findAllIndexes(group, 2)
+    const allLevel2Indexes = findAllIndexes(group, depth + 1)
     // console.log(allLevel2Indexes)
-    const mappedLevel2 = mapStuff(allLevel2Indexes, group)
+    const mappedLevel2 = mapStuff(allLevel2Indexes, group, depth + 1)
     // console.log('mapped level 2', mappedLevel2, group)
 
     return {
