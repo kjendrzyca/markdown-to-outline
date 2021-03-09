@@ -34,13 +34,29 @@ module.exports = (markdownDocument) => {
 const mapStuff = (headingIndexes, elements) => {
   const firstHeaderIndex = headingIndexes[0]
   // in case there is no first header and md starts with paragraphs
-  const elementsBeforeFirstIndex = elements.reduce((result, current, currentIndex) => {
+  const elementsBeforeFirstHeader = elements.reduce((result, current, currentIndex) => {
     if (currentIndex < firstHeaderIndex) {
       result.push(sanitizeElement(current))
     }
 
     return result
   }, [])
+
+  const level2IndexesBeforeFirstHeader = findAllIndexes(elementsBeforeFirstHeader, 2)
+
+  let mappedLevel2BeforeFirstHeader = []
+  if (level2IndexesBeforeFirstHeader.length) {
+    mappedLevel2BeforeFirstHeader = mapStuff(
+      level2IndexesBeforeFirstHeader,
+      elementsBeforeFirstHeader,
+    )
+  }
+
+  const finalElementsBeforeFirstIndex = mappedLevel2BeforeFirstHeader.length
+    ? mappedLevel2BeforeFirstHeader
+    : elementsBeforeFirstHeader
+
+  // ===
 
   const elementsAfterFirstIndex = headingIndexes.map((index, indexIterator) => {
     const isFirstGroupIndex = index === headingIndexes[0]
@@ -85,11 +101,11 @@ const mapStuff = (headingIndexes, elements) => {
       }, [])
     }
 
-    console.log({ group })
+    // console.log({ group })
     const allLevel2Indexes = findAllIndexes(group, 2)
-    console.log(allLevel2Indexes)
+    // console.log(allLevel2Indexes)
     const mappedLevel2 = mapStuff(allLevel2Indexes, group)
-    console.log('mapped level 2', mappedLevel2, group)
+    // console.log('mapped level 2', mappedLevel2, group)
 
     return {
       ...sanitizeElement(elements[index]),
@@ -97,7 +113,7 @@ const mapStuff = (headingIndexes, elements) => {
     }
   })
 
-  return [...elementsBeforeFirstIndex, ...elementsAfterFirstIndex]
+  return [...finalElementsBeforeFirstIndex, ...elementsAfterFirstIndex]
 }
 
 const findAllIndexes = (array, level) => array.reduce((prev, current, currentIndex) => {
