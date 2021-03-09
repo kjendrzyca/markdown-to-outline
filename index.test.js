@@ -76,42 +76,42 @@ it(`should properly map a list`, () => {
   expect(actual).toEqual(output)
 })
 
-// it(`should map a book snapshot`, () => {
-//   const input = fs.readFileSync(`./testData/eat-that-frog.md`)
+it(`should map a book snapshot`, () => {
+  const input = fs.readFileSync(`./testData/eat-that-frog.md`)
 
-//   const actual = toJson(mapToJson(input))
+  const actual = toJson(mapToJson(input))
 
-//   // console.log(actual)
+  expect(actual).toMatchSnapshot()
+})
 
-//   expect(actual).toMatchSnapshot()
-// })
+it.skip(`should not miss any elements`, () => {
+  const input = fs.readFileSync(`./testData/eat-that-frog.md`)
 
-// it(`should not miss any elements`, () => {
-//   const input = fs.readFileSync(`./testData/eat-that-frog.md`)
+  const tree = fromMarkdown(input)
 
-//   const tree = fromMarkdown(input)
-//   const allElements = tree.children.map((element) => {
-//     if (!element.children) {
-//       return element.value
-//     }
+  const allLines = []
+  tree.children.forEach((element) => {
+    if (!element.children) {
+      allLines.push(element.value)
+    } else if (element.type === 'list') {
+      // console.log('LIST', element.children[0])
+      const listElements = element.children.map((child) => child.children[0].children[0].value)
 
-//     const firstChild = element.children[0]
+      allLines.push(...listElements)
+    } else {
+      allLines.push(element.children[0].value)
+    }
+  })
 
-//     if (firstChild.type === 'listItem') {
-//       console.log(firstChild.children[1])
-//       return firstChild.children[0].value
-//     }
+  // console.log(JSON.stringify(tree, null, 2))
+  // console.log('===')
+  console.log(allLines)
+  console.log(allLines.length)
+  // console.log(tree.children.length)
 
-//     return element.children[0].value
-//   })
+  const actual = toJson(mapToJson(input))
 
-//   console.log(JSON.stringify(tree, null, 2))
-//   // console.log('===')
-//   // console.log(allElements)
+  console.log(actual)
 
-//   // const actual = toJson(mapToJson(input))
-
-//   // console.log(actual)
-
-//   // expect(actual).toMatchSnapshot()
-// })
+  // expect(actual).toMatchSnapshot()
+})
