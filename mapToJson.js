@@ -22,13 +22,79 @@ module.exports = (markdownDocument) => {
   // and so on
 
   const levelOneIndexes = findAllIndexes(tree.children, 1)
-  console.log({ levelOneIndexes })
+  // console.log(JSON.stringify(allElements, null, 2))
 
   const finalResult = mapStuff(levelOneIndexes, allElements)
 
   // console.log(JSON.stringify(finalResult, null, 2))
 
   return finalResult
+}
+
+const mapStuff = (headingIndexes, elements) => {
+  const firstHeaderIndex = headingIndexes[0]
+  // in case there is no first header and md starts with paragraphs
+  const elementsBeforeFirstIndex = elements.reduce((result, current, currentIndex) => {
+    if (currentIndex < firstHeaderIndex) {
+      result.push(sanitizeElement(current))
+    }
+
+    return result
+  }, [])
+
+  const elementsAfterFirstIndex = headingIndexes.map((index, indexIterator) => {
+    const isFirstGroupIndex = index === headingIndexes[0]
+    const isLastGroupIndex = index === headingIndexes[headingIndexes.length - 1]
+    // TODO: hardcoded 0 shouldn't be here
+    const isInBetweenGroupIndex = (
+      index > headingIndexes[0] && index < headingIndexes[headingIndexes.length - 1]
+    )
+    const nextIndex = headingIndexes[indexIterator + 1]
+
+    console.log({ isInBetweenGroupIndex, index })
+
+    let group
+    if (isFirstGroupIndex) {
+      const secondHeaderIndex = headingIndexes[1]
+      group = elements.reduce((result, current, currentIndex) => {
+        if (currentIndex > firstHeaderIndex && currentIndex < secondHeaderIndex) {
+          result.push(sanitizeElement(current))
+        }
+
+        return result
+      }, [])
+    }
+
+    if (isLastGroupIndex) {
+      group = elements.reduce((result, current, currentIndex) => {
+        if (currentIndex > index) {
+          result.push(sanitizeElement(current))
+        }
+
+        return result
+      }, [])
+    }
+
+    if (isInBetweenGroupIndex) {
+      group = elements.reduce((result, current, currentIndex) => {
+        if (currentIndex > index && currentIndex < nextIndex) {
+          result.push(sanitizeElement(current))
+        }
+
+        return result
+      }, [])
+    }
+
+    console.log({ group })
+    // const allLevel2Indexes = findAllIndexes(group, 2)
+    // console.log(allLevel2Indexes)
+    // const mappedLevel2 = mapStuff(allLevel2Indexes, group)
+    // console.log('mapped level 2', mappedLevel2, group)
+
+    return { ...sanitizeElement(elements[index]), children: group }
+  })
+
+  return [...elementsBeforeFirstIndex, ...elementsAfterFirstIndex]
 }
 
 const findAllIndexes = (array, level) => array.reduce((prev, current, currentIndex) => {
@@ -40,53 +106,10 @@ const findAllIndexes = (array, level) => array.reduce((prev, current, currentInd
 
 const indexPredicate = (element, level) => element.type === 'heading' && element.depth === level
 
-const mapStuff = (headingIndexes, elements) => headingIndexes.map((index, indexIterator) => {
-  const isFirstGroupIndex = index === 0
-  const isLastGroupIndex = index === headingIndexes[headingIndexes.length - 1]
-  const isInBetweenGroupIndex = index > 0 && index < headingIndexes[headingIndexes.length - 1]
-  const nextIndex = headingIndexes[indexIterator + 1]
-
-  console.log({ isInBetweenGroupIndex, index })
-
-  let group
-  if (isFirstGroupIndex) {
-    const secondHeaderIndex = headingIndexes[1]
-    group = elements.reduce((result, current, currentIndex) => {
-      if (currentIndex > 0 && currentIndex < secondHeaderIndex) {
-        result.push(sanitizeElement(current))
-      }
-
-      return result
-    }, [])
-  }
-
-  if (isLastGroupIndex) {
-    group = elements.reduce((result, current, currentIndex) => {
-      if (currentIndex > index) {
-        result.push(sanitizeElement(current))
-      }
-
-      return result
-    }, [])
-  }
-
-  if (isInBetweenGroupIndex) {
-    group = elements.reduce((result, current, currentIndex) => {
-      if (currentIndex > index && currentIndex < nextIndex) {
-        result.push(sanitizeElement(current))
-      }
-
-      return result
-    }, [])
-  }
-
-  return { ...sanitizeElement(elements[index]), children: group }
-})
-
 const sanitizeElement = (element) => ({
   type: element.type,
   ...(element.depth ? { depth: element.depth } : {}),
-  value: element.children[0].value,
+  value: element.children ? element.children[0].value : element.value,
 })
 
 // =========================
