@@ -15,7 +15,8 @@
       {
         "type": "heading",
         "depth": 2,
-        "value": "Heading 2"
+        "value": "Heading 2",
+        "children": []
       }
     ]
   },

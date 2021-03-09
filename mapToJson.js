@@ -86,12 +86,15 @@ const mapStuff = (headingIndexes, elements) => {
     }
 
     console.log({ group })
-    // const allLevel2Indexes = findAllIndexes(group, 2)
-    // console.log(allLevel2Indexes)
-    // const mappedLevel2 = mapStuff(allLevel2Indexes, group)
-    // console.log('mapped level 2', mappedLevel2, group)
+    const allLevel2Indexes = findAllIndexes(group, 2)
+    console.log(allLevel2Indexes)
+    const mappedLevel2 = mapStuff(allLevel2Indexes, group)
+    console.log('mapped level 2', mappedLevel2, group)
 
-    return { ...sanitizeElement(elements[index]), children: group }
+    return {
+      ...sanitizeElement(elements[index]),
+      children: mappedLevel2.length ? mappedLevel2 : group,
+    }
   })
 
   return [...elementsBeforeFirstIndex, ...elementsAfterFirstIndex]

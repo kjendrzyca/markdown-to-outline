@@ -29,7 +29,7 @@ it(`should map simple markdown without first header`, () => {
   expect(actual).toEqual(output)
 })
 
-it.skip(`should map nested markdown (h2 level)`, () => {
+it(`should map nested markdown (h2 level)`, () => {
   const { input, output } = readTestData('2-nested')
 
   const actual = toJson(mapToJson(input))
