@@ -37,7 +37,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
   // in case there is no first header and md starts with paragraphs
   const elementsBeforeFirstHeader = elements.reduce((result, current, currentIndex) => {
     if (currentIndex < firstHeaderIndex) {
-      result.push(sanitizeElement(current))
+      result.push(...sanitizeElement(current))
     }
 
     return result
@@ -76,7 +76,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
       const secondHeaderIndex = headingIndexes[1]
       group = elements.reduce((result, current, currentIndex) => {
         if (currentIndex > firstHeaderIndex && currentIndex < secondHeaderIndex) {
-          result.push(sanitizeElement(current))
+          result.push(...sanitizeElement(current))
         }
 
         return result
@@ -86,7 +86,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
     if (isLastGroupIndex) {
       group = elements.reduce((result, current, currentIndex) => {
         if (currentIndex > index) {
-          result.push(sanitizeElement(current))
+          result.push(...sanitizeElement(current))
         }
 
         return result
@@ -96,7 +96,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
     if (isInBetweenGroupIndex) {
       group = elements.reduce((result, current, currentIndex) => {
         if (currentIndex > index && currentIndex < nextIndex) {
-          result.push(sanitizeElement(current))
+          result.push(...sanitizeElement(current))
         }
 
         return result
@@ -110,7 +110,7 @@ const mapStuff = (headingIndexes, elements, depth) => {
     // console.log('mapped level 2', mappedLevel2, group)
 
     return {
-      ...sanitizeElement(elements[index]),
+      ...sanitizeHeader(elements[index]),
       children: mappedLevel2.length ? mappedLevel2 : group,
     }
   })
@@ -127,7 +127,37 @@ const findAllIndexes = (array, level) => array.reduce((prev, current, currentInd
 
 const indexPredicate = (element, level) => element.type === 'heading' && element.depth === level
 
-const sanitizeElement = (element) => ({
+const sanitizeElement = (element) => {
+  if (!element.children) {
+    return [{
+      ...elementFactory(element),
+      value: element.value,
+    }]
+  }
+
+  const firstChild = element.children[0]
+
+  if (element.type === 'list') {
+    // console.log('LIST', element.children[0])
+    return element.children.map((child) => console.log('CHILD', child.children[0].children[0].value) || ({
+      ...elementFactory(child),
+      value: child.children[0].children[0].value,
+    }))
+  }
+
+  return [{
+    ...elementFactory(element),
+    value: firstChild.value,
+  }]
+}
+
+const elementFactory = (element) => ({
+  type: element.type,
+  ...(element.depth ? { depth: element.depth } : {}),
+})
+
+// TODO: clean up
+const sanitizeHeader = (element) => ({
   type: element.type,
   ...(element.depth ? { depth: element.depth } : {}),
   value: element.children ? element.children[0].value : element.value,

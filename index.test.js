@@ -65,3 +65,53 @@ it(`should map all levels`, () => {
 
   expect(actual).toEqual(output)
 })
+
+it(`should properly map a list`, () => {
+  const { input, output } = readTestData('5-list')
+
+  const actual = toJson(mapToJson(input))
+
+  console.log(actual)
+
+  expect(actual).toEqual(output)
+})
+
+// it(`should map a book snapshot`, () => {
+//   const input = fs.readFileSync(`./testData/eat-that-frog.md`)
+
+//   const actual = toJson(mapToJson(input))
+
+//   // console.log(actual)
+
+//   expect(actual).toMatchSnapshot()
+// })
+
+// it(`should not miss any elements`, () => {
+//   const input = fs.readFileSync(`./testData/eat-that-frog.md`)
+
+//   const tree = fromMarkdown(input)
+//   const allElements = tree.children.map((element) => {
+//     if (!element.children) {
+//       return element.value
+//     }
+
+//     const firstChild = element.children[0]
+
+//     if (firstChild.type === 'listItem') {
+//       console.log(firstChild.children[1])
+//       return firstChild.children[0].value
+//     }
+
+//     return element.children[0].value
+//   })
+
+//   console.log(JSON.stringify(tree, null, 2))
+//   // console.log('===')
+//   // console.log(allElements)
+
+//   // const actual = toJson(mapToJson(input))
+
+//   // console.log(actual)
+
+//   // expect(actual).toMatchSnapshot()
+// })
