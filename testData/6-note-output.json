@@ -10,7 +10,7 @@
     "children": [
       {
         "type": "paragraph",
-        "value": "Rule1\nNote: !!!"
+        "value": "Rule1\nNote: !!!\nMultiline"
       },
       {
         "type": "heading",
@@ -37,6 +37,14 @@
       {
         "type": "paragraph",
         "value": "Rule2\nNote: aaa"
+      },
+      {
+        "type": "listItem",
+        "value": "Equally less relevant for the digital version are those links that indicate the note to which the current note is a follow- up and those links that indicate the note that follows on the current note.\nNote: !!!"
+      },
+      {
+        "type": "listItem",
+        "value": "The most common form of reference is plain note- to- note links. They have no function other than indicating a relevant connection between two individual notes.\nNote: !!!\nMultiline"
       }
     ]
   }
