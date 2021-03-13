@@ -6,7 +6,7 @@ Paragraph 2
 
 ## Heading 2
 
-# Learning from Successful People
+# **Learning from Successful People**
 
 Paragraph 3
 

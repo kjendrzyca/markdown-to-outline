@@ -154,12 +154,37 @@ const elementFactory = (element) => ({
 })
 
 const mapParagraph = (element) => element.children.map(
-  (child) => (child.value ? child.value : child.children[0].value),
+  (child) => {
+    if (child.value) {
+      return child.value
+    }
+
+    // links are handled here
+    if (child.children) {
+      return child.children[0].value
+    }
+
+    if (child.type === 'image') {
+      return child.url
+    }
+
+    throw new Error('Not implemented: Invalid type of node.')
+  },
 ).join('')
 
-// TODO: clean up
-const sanitizeHeader = (element) => ({
+const sanitizeHeader = (element) => console.log(element) || ({
   type: element.type,
   ...(element.depth ? { depth: element.depth } : {}),
-  value: element.children ? element.children[0].value : element.value,
+  // TODO: maybe replace with mapParagraph
+  value: element.value ? element.value : element.children.map((child) => {
+    if (child.value) {
+      return child.value
+    }
+
+    if (child.children) {
+      return child.children[0].value
+    }
+
+    throw new Error('Not implemented: Invalid type of node.')
+  }).join(''),
 })

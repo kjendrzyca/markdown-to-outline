@@ -14,6 +14,8 @@ H3 Paragraph with note
 **Note:** ???
 
 # H1
+**Note:** H1 note multi1
+H1 note multi2
 
 Rule2
 **Note:** aaa

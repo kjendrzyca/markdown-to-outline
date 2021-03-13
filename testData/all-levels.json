@@ -27,7 +27,7 @@
         "children": [
           {
             "type": "paragraph",
-            "value": "Paragraph h3.1"
+            "value": "Paragraph h3.1\nNote: multiline1\nmultiline2"
           },
           {
             "type": "paragraph",
@@ -38,6 +38,10 @@
             "depth": 4,
             "value": "Heading 44",
             "children": [
+              {
+                "type": "paragraph",
+                "value": "Note: Heading 44 note"
+              },
               {
                 "type": "paragraph",
                 "value": "Paragraph 44.1"

@@ -79,6 +79,14 @@ it(`should map a note`, () => {
   expect(actual).toEqual(output)
 })
 
+it(`should map an image and a link`, () => {
+  const { input, output } = readTestData('7-images-links')
+
+  const actual = toJson(mapToJson(input))
+
+  expect(actual).toEqual(output)
+})
+
 it(`should map a book snapshot`, () => {
   const input = fs.readFileSync(`./testData/eat-that-frog.md`)
 

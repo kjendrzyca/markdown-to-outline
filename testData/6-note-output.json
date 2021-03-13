@@ -36,6 +36,10 @@
     "children": [
       {
         "type": "paragraph",
+        "value": "Note: H1 note multi1\nH1 note multi2"
+      },
+      {
+        "type": "paragraph",
         "value": "Rule2\nNote: aaa"
       },
       {

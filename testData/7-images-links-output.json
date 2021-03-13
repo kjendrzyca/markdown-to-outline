@@ -1,0 +1,29 @@
+[
+  {
+    "type": "heading",
+    "depth": 1,
+    "value": "Notes",
+    "children": [
+      {
+        "type": "paragraph",
+        "value": "PARA is:"
+      },
+      {
+        "type": "listItem",
+        "value": "universal"
+      },
+      {
+        "type": "listItem",
+        "value": "flexible"
+      },
+      {
+        "type": "paragraph",
+        "value": "https://example.com/image1.jpg"
+      },
+      {
+        "type": "paragraph",
+        "value": "https://example.com/image1.jpg"
+      }
+    ]
+  }
+]

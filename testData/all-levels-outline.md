@@ -6,8 +6,11 @@
     Note: aaa
   - Heading h3
     - Paragraph h3.1
+      Note: multiline1
+      multiline2
     - Paragraph h3.2
     - Heading 44
+      - Note: Heading 44 note
       - Paragraph 44.1
       - Paragraph 44.2
 - Learning from Successful People
